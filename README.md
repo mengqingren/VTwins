@@ -36,3 +36,11 @@
     # the redundant pair number is 254
     write.csv(res,file = "Feature-PairWilcoxonRank.Res.csv",row.names = F)
 
+##### CRC-MTwins-Analyisis.R
+
+* the R code was used to analyze CRC datasets and generate the figures
+
+##### HowToRunPairFind
+
+* the file or R code mainly direct users how to run the Pair_Find function
+
