@@ -150,11 +150,11 @@ pair_find<-function(data=data,phenodata=data.frame(),k="euclidean",SavePath = NU
     indexpo2 = which(as.character(phenodata[,1]) == as.character(res[i,2]))
     if (phenodata[indexpo1,2] == phenodata[indexpo2,2]) {
       for (mkl in 1:RAP_knn_num) {
-        pairinfor <- rbind(pairinfor,c(res[i,1],res[i,1+2*RAN_knn_num+mkl],res[i,1+2*RAN_knn_num+mkl+RAP_knn_num]))
+        pairinfor <- rbind(pairinfor,c(as.character(res[i,1]),as.character(res[i,1+2*RAN_knn_num+mkl]),res[i,1+2*RAN_knn_num+mkl+RAP_knn_num]))
       }
     }else{
       for (pkl in 1:RAN_knn_num) {
-        pairinfor <- rbind(pairinfor,c(res[i,pkl+1],res[i,1],res[i,pkl+1+RAN_knn_num]))
+        pairinfor <- rbind(pairinfor,c(as.character(res[i,pkl+1]),as.character(res[i,1]),res[i,pkl+1+RAN_knn_num]))
       }
     }
   }
