@@ -1,0 +1,12 @@
+Package: VTwins
+Type: Package
+Title: What the Package Does (Title Case)
+Version: 0.1.0
+Author: Meng
+Maintainer: Qingren Meng<mengqrLoveQian@gmail.com>
+Description: This package perform phenotype-enriched features analysis
+License: GPL-2
+Encoding: UTF-8
+LazyData: FALSE
+Imports:
+  tidyverse
