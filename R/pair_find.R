@@ -146,8 +146,8 @@ pair_find<-function(data=data,phenodata=data.frame(),k="euclidean",SavePath = NU
   #write.csv(res,file = filename)
   pairinfor = matrix(ncol =3,nrow = 0)
   for (i in 1:dim(res)[1]) {
-    indexpo1 = which(phenodata[,1] == res[i,1])
-    indexpo2 = which(phenodata[,1] == res[i,2])
+    indexpo1 = which(as.character(phenodata[,1]) == as.character(res[i,1]))
+    indexpo2 = which(as.character(phenodata[,1]) == as.character(res[i,2]))
     if (phenodata[indexpo1,2] == phenodata[indexpo2,2]) {
       for (mkl in 1:RAP_knn_num) {
         pairinfor <- rbind(pairinfor,c(res[i,1],res[i,1+2*RAN_knn_num+mkl],res[i,1+2*RAN_knn_num+mkl+RAP_knn_num]))
