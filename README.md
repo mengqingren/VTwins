@@ -103,7 +103,7 @@ res <- pair_find(data=dataset.normalized,
                  ShuffleTime=10000,
                  DownPercent = 0.2,
                  Uppercent=0.8,PvalueCutoff=0.01)
-res$log2FC = log2(Dismean/Ctlmean)
+res$log2FC = log2(as.numeric(res$Dismean)/as.numeric(res$Ctlmean))
 write.csv(res,"Results.csv",row.names=F)
 ```
 
@@ -155,6 +155,6 @@ res <- pair_find(data=dataset2,
                  ShuffleTime=10000,
                  DownPercent = 0.2,
                  Uppercent=0.8,PvalueCutoff=0.01)
-res$log2FC = log2(Dismean/Ctlmean)
+res$log2FC = log2(as.numeric(res$Dismean)/as.numeric(res$Ctlmean))
 write.csv(res,"RealData.Results.csv",row.names=F)
 ```
