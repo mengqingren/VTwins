@@ -16,6 +16,7 @@ VTwins from [GitHub](https://github.com/) with:
 remotes::install_github("mengqingren/VTwins")
 ```
 ### Dependence
+- R version 4.0.5
 - tidyverse_1.3.1
 
 ### Basic Usage
