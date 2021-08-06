@@ -158,7 +158,7 @@ pair_find<-function(data=data,phenodata=data.frame(),k="euclidean",SavePath = NU
       }
     }
   }
-
+  pairinfor[,3] <- as.numeric(as.character(pairinfor[,3]))
   Newmatrix <<- matrix(ncol = 3,nrow = 0)
   Extract_Dist <- function(PairData,...){
     if (dim(PairData)[1] > 0) {
