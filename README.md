@@ -77,6 +77,7 @@ pair_find(data=YourRelativeAbundanceDataframe, # must be a data frame with colum
 **if you want to skip the download step, you can find the mock and real datasets in [mengqingren/VTwins.Linux](https://github.com/mengqingren/VTwins.Linux)**
   
 ``` r
+library(tidyverse)
 library(VTwins)
 library(vegan)
 # relative abundance dataframe
