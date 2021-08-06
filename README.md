@@ -38,7 +38,7 @@ pair_find(data=YourRelativeAbundanceDataframe, # must be a data frame with colum
 - phenodata: must be a data frame with two columns, and colnames are `id` (column 1) and `grp` (column 2). column id represent the sample id, column grp consist of `grp1` and `grp2`, representing the ctrl and disease, repsectively.
 - k: distance calculating method. it must bu consist with the method in `dist` function.
 - SavePath: filename of output directory. Default: ./
-  - ShuffleWstat: filename of shuffle W stats
+- ShuffleWstat: filename of shuffle W stats
 - BoundarySample: filename of output boundary samples with distance
 - BoundaryPair: filename of output final pairs 
 - ShuffleTime: shuffle time
