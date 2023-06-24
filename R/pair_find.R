@@ -318,7 +318,7 @@ pair_find<-function(data=data,phenodata=data.frame(),k="euclidean",SavePath = NU
       CRCmean <- mean(Middata$CRC)
       #MeanData <- rbind(MeanData,c(as.character(colnames(data)[i]),Ctlmean,CRCmean))
       Mid.Matrix <- data.frame(Species=as.character(colnames(data)[i]),
-                               Ctrlmean=Ctlmean,
+                               Ctlmean=Ctlmean,
                                Dismean=CRCmean,
                                pvalue=test$p.value) %>% data.frame(check.names=F) %>%
       mutate(Enrieched = if_else(pvalue <= PvalueCutoff,"Sig","None")) %>% rbind.data.frame(Mid.Matrix)
