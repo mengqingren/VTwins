@@ -39,6 +39,8 @@ pair_find(data=YourRelativeAbundanceDataframe, # must be a data frame with colum
 - phenodata: must be a data frame with two columns, and colnames are `id` (column 1) and `grp` (column 2). column id represent the sample id, column grp consist of `grp1` and `grp2`, representing the ctrl and disease, repsectively.
 - k: distance calculating method. it must bu consist with the method in `dist` function.
 - SavePath: filename of output directory. Default: ./
+- Cut_pair: the cutoff of redundant pairs to perform permutation or wilcox rank paired test. Defult 25
+- method_choose: necessary parameter of greated than 25 pair, choose from :"Wilcox","Permutation",
 - ShuffleWstat: filename of shuffle W stats
 - BoundarySample: filename of output boundary samples with distance
 - BoundaryPair: filename of output final pairs 
@@ -101,6 +103,8 @@ phe_data <- data.frame(id = paste("Sample",1:120,sep = ''),grp=rep(c("grp1","grp
 res <- pair_find(data=dataset.normalized,
                  phenodata=phe_data,
                  k="euclidean",
+                 Cut_pair=25, 
+                 method_choose="Permutation",
                  SavePath = "./",
                  ShuffleWstat = "ShuffleWstat", 
                  BoundarySample = "BoundarySample",
@@ -153,6 +157,8 @@ dataset2 <- dataset %>% dplyr::select(-grp) %>% remove_rownames() %>% column_to_
 res <- pair_find(data=dataset2,
                  phenodata=phe_data2,
                  k="euclidean",
+                 Cut_pair=25, 
+                 method_choose="Permutation",
                  SavePath = "./",
                  ShuffleWstat = "RealData.ShuffleWstat", 
                  BoundarySample = "RealData.BoundarySample",
