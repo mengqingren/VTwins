@@ -18,7 +18,7 @@
 
 pair_find<-function(data=data,phenodata=data.frame(),k="euclidean",SavePath = NULL,ShuffleWstat = NULL, 
                     BoundarySample = NULL,BoundaryPair=NULL,PvalueCutoff=0.05,
-                    Cut_pair=25,
+                    Cut_pair=25, method_choose=c("Wilcox","Permutation"),
                     ShuffleTime=10000,DownPercent = 0.2,Uppercent=0.8){ # colnames(phenodata) = c("id","grp"); grp1 = "Ctrl", grp2 = "Disease"
   suppressMessages(library(tidyverse))
   #suppressMessages(library(fdrtool))
@@ -198,8 +198,8 @@ pair_find<-function(data=data,phenodata=data.frame(),k="euclidean",SavePath = NU
   cat("PAIR FINISHED\n")
   #return(pairinfor)
 
-  ###### Pair shuffle
-  if(dim(pairinfor)[1] < 25 ){
+  ###### Pair shuffle or Wilcox Rank test #####
+  if((dim(pairinfor)[1] < 25) | (dim(pairinfor)[1] >= 25 & method_choose == "Permutation")){
     ShufflePair <- lapply(1:ShuffleTime, function(Shuffle){
     Random <- runif(1,DownPercent,Uppercent)
     n <- round(dim(pairinfor)[1]*Random,0)
@@ -300,9 +300,29 @@ pair_find<-function(data=data,phenodata=data.frame(),k="euclidean",SavePath = NU
   MeanData <- MeanData %>% data.frame() %>% dplyr::rename(Species=1,Ctlmean=2,Dismean=3)
   Mid.Matrix <- merge(Mid.Matrix,MeanData,by="Species") %>% data.frame() %>% mutate(Enrieched = if_else(Decre.aveRank.P <= PvalueCutoff,"Disease",if_else(Incre.aveRank.P <= PvalueCutoff,"Ctrl","N.S.")))
   } else{
-    
+    Mid.Matrix <- data.frame()
+    for (i in 1:dim(data)[2]) {
+      ### original cohort
+      former<-rep(NA,dim(pairinfor)[1])
+      latter<-rep(NA,dim(pairinfor)[1])
+      for (j in 1:dim(pairinfor)[1]) {
+        index_former<-which(rownames(data) == pairinfor$Ctl[j])
+        former[j]=as.numeric(as.character(data[index_former,i]))
+        index_latter<-which(rownames(data) == pairinfor$Disease[j])
+        latter[j]=as.numeric(as.character(data[index_latter,i]))
+      }
+      Middata <- data.frame(Ctrl = former, CRC = latter)
+      test<-wilcox.test(Middata$Ctrl,Middata$CRC,paired = TRUE)
+
+      Ctrlmean <- mean(Middata$Ctrl)
+      CRCmean <- mean(Middata$CRC)
+      #MeanData <- rbind(MeanData,c(as.character(colnames(data)[i]),Ctrlmean,CRCmean))
+      Mid.Matrix <- data.frame(Species=as.character(colnames(data)[i]),Ctrlmean=Ctrlmean,Dismean=CRCmean,pvalue=test$p.value) %>% mutate(Enrieched = if_else(pvalue <= PvalueCutoff,"Sig","None")) %>% rbind.data.frame(Mid.Matrix)
+    }
   }
-  
+  if (!is.null(Mid.Matrix)) {
+    write.csv(pairinfor,paste(SavePath,"/PairFind.Output.csv",sep = ''),row.names = F)
+  }
   cat("All done\n")
   return(Mid.Matrix)
 }# END - function: Pair_Find
