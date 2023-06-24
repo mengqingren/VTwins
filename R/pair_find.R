@@ -235,8 +235,8 @@ pair_find<-function(data=data,phenodata=data.frame(),k="euclidean",SavePath = NU
     CRCmean <- mean(Middata$CRC)
     MeanData <- rbind(MeanData,c(as.character(colnames(data)[i]),Ctrlmean,CRCmean))
 
-    cat(as.character(colnames(data)[i]))
-    cat("\n")
+    #cat(as.character(colnames(data)[i]))
+    #cat("\n")
     #print(AllNW)
 
     ### calculate shuffle W stat
