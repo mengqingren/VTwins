@@ -314,11 +314,11 @@ pair_find<-function(data=data,phenodata=data.frame(),k="euclidean",SavePath = NU
       Middata <- data.frame(Ctrl = former, CRC = latter)
       test<-wilcox.test(Middata$Ctrl,Middata$CRC,paired = TRUE)
 
-      Ctrlmean <- mean(Middata$Ctrl)
+      Ctlmean <- mean(Middata$Ctrl)
       CRCmean <- mean(Middata$CRC)
-      #MeanData <- rbind(MeanData,c(as.character(colnames(data)[i]),Ctrlmean,CRCmean))
+      #MeanData <- rbind(MeanData,c(as.character(colnames(data)[i]),Ctlmean,CRCmean))
       Mid.Matrix <- data.frame(Species=as.character(colnames(data)[i]),
-                               Ctrlmean=Ctrlmean,
+                               Ctrlmean=Ctlmean,
                                Dismean=CRCmean,
                                pvalue=test$p.value) %>% data.frame(check.names=F) %>%
       mutate(Enrieched = if_else(pvalue <= PvalueCutoff,"Sig","None")) %>% rbind.data.frame(Mid.Matrix)
