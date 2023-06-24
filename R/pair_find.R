@@ -16,7 +16,10 @@
 #' @examples
 #' @export
 
-pair_find<-function(data=data,phenodata=data.frame(),k="euclidean",SavePath = NULL,ShuffleWstat = NULL, BoundarySample = NULL,BoundaryPair=NULL,PvalueCutoff=0.05,ShuffleTime=10000,DownPercent = 0.2,Uppercent=0.8){ # colnames(phenodata) = c("id","grp"); grp1 = "Ctrl", grp2 = "Disease"
+pair_find<-function(data=data,phenodata=data.frame(),k="euclidean",SavePath = NULL,ShuffleWstat = NULL, 
+                    BoundarySample = NULL,BoundaryPair=NULL,PvalueCutoff=0.05,
+                    Cut_pair=25,
+                    ShuffleTime=10000,DownPercent = 0.2,Uppercent=0.8){ # colnames(phenodata) = c("id","grp"); grp1 = "Ctrl", grp2 = "Disease"
   suppressMessages(library(tidyverse))
   #suppressMessages(library(fdrtool))
   #suppressMessages(library(qvalue))
@@ -187,6 +190,7 @@ pair_find<-function(data=data,phenodata=data.frame(),k="euclidean",SavePath = NU
   }
   #write.csv(pairinfor,file = "test.csv",row.names = F)
   cat(paste("the redundant pair number is ",dim(pairinfor)[1],"\n",sep = ''))
+  
   if (dim(pairinfor)[1] < 10){
     cat("Insufficient number of paired samples\n")
     return(NULL)
@@ -195,8 +199,8 @@ pair_find<-function(data=data,phenodata=data.frame(),k="euclidean",SavePath = NU
   #return(pairinfor)
 
   ###### Pair shuffle
-
-  ShufflePair <- lapply(1:ShuffleTime, function(Shuffle){
+  if(dim(pairinfor)[1] < 25 ){
+    ShufflePair <- lapply(1:ShuffleTime, function(Shuffle){
     Random <- runif(1,DownPercent,Uppercent)
     n <- round(dim(pairinfor)[1]*Random,0)
     RandomIndex <- sample(1:dim(pairinfor)[1],n,replace = F)
@@ -295,7 +299,10 @@ pair_find<-function(data=data,phenodata=data.frame(),k="euclidean",SavePath = NU
 
   MeanData <- MeanData %>% data.frame() %>% dplyr::rename(Species=1,Ctlmean=2,Dismean=3)
   Mid.Matrix <- merge(Mid.Matrix,MeanData,by="Species") %>% data.frame() %>% mutate(Enrieched = if_else(Decre.aveRank.P <= PvalueCutoff,"Disease",if_else(Incre.aveRank.P <= PvalueCutoff,"Ctrl","N.S.")))
-
+  } else{
+    
+  }
+  
   cat("All done\n")
   return(Mid.Matrix)
 }# END - function: Pair_Find
